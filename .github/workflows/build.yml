@@ -18,15 +18,22 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install Dependencies
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y ccache git libffi-dev libssl-dev zlib1g-dev python3-pip
-        pip install --upgrade buildozer cython
+        sudo apt-get install -y \
+          build-extras ccache git zlib1g-dev libffi-dev libssl-dev python3-pip \
+          openjdk-17-jdk unzip wget
+
+    - name: Install Python Dependencies
+      run: |
+        pip install --upgrade pip
+        pip install --upgrade buildozer cython setuptools
 
     - name: Build APK with Buildozer
       run: |
-        buildozer -v android debug
+        # Accept licenses automatically during build process
+        yes | buildozer -v android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
