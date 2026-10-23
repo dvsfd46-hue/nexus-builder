@@ -21,9 +21,7 @@ jobs:
     - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          build-extras ccache git zlib1g-dev libffi-dev libssl-dev python3-pip \
-          openjdk-17-jdk unzip wget
+        sudo apt-get install -y openjdk-17-jdk git zip unzip
 
     - name: Install Python Dependencies
       run: |
@@ -32,7 +30,6 @@ jobs:
 
     - name: Build APK with Buildozer
       run: |
-        # Accept licenses automatically during build process
         yes | buildozer -v android debug
 
     - name: Upload APK Artifact
@@ -40,4 +37,3 @@ jobs:
       with:
         name: nexus-agent-apk
         path: bin/*.apk
-        
